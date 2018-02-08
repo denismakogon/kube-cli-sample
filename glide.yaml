@@ -1,0 +1,11 @@
+package: github.com/denismakogon/kube-cli-sample
+import:
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/apis/meta/v1
+- package: k8s.io/client-go
+  version: ^6.0.0
+  subpackages:
+  - kubernetes
+  - tools/clientcmd
+  - util/homedir

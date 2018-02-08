@@ -1,0 +1,117 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: test-role
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames: ["*"]
+  verbs: ["update", "get"]
+- apiGroups: [""]
+  resources: ["users", "groups", "serviceaccounts"]
+  verbs: ["impersonate"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: ann-binding
+  namespace: default
+subjects:
+- kind: User
+  name: ann
+  namespace: default
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: test-role
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: denis-binding
+  namespace: default
+subjects:
+- kind: User
+  name: denis
+  namespace: default
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: test-role
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: test-role-2
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames: ["configmap-1", "config", "nginx", "caddy"]
+  verbs: ["update", "get"]
+- apiGroups: [""]
+  resources: ["users", "groups", "serviceaccounts"]
+  verbs: ["impersonate"]
+# uncomment to see that how kubectl accepts this shitty overlap
+#- apiGroups: [""]
+#  resources: ["configmaps", "pods"]
+#  resourceNames: ["configmap-1", "config", "nginx", "caddy"]
+#  verbs: ["update", "get"]
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: test-role-3
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  resourceNames: ["nginx-different"]
+  verbs: ["update", "get"]
+- apiGroups: [""]
+  resources: ["users", "groups", "serviceaccounts"]
+  verbs: ["impersonate"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: lary-bidning
+  namespace: default
+subjects:
+- kind: User
+  name: lary
+  namespace: default
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: system:unauthenticated
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: test-role-2
+  apiGroup: rbac.authorization.k8s.io
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: dave-binding
+  namespace: default
+subjects:
+- kind: User
+  name: dave
+  namespace: default
+  apiGroup: rbac.authorization.k8s.io
+- kind: User
+  name: dave-2
+  namespace: default
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: test-role-3
+  apiGroup: rbac.authorization.k8s.io
+---

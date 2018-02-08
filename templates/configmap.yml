@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-1
+  namespace: default
+data:
+  test: test
+  test1: test
+  language: eng
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: default
+data:
+  test: test
+  test1: test
+  language: eng
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx
+  namespace: default
+data:
+  test: test
+  test1: test
+  language: eng
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: caddy
+  namespace: default
+data:
+  test: test
+  test1: test
+  language: eng
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-different
+  namespace: default
+data:
+  test: test
+  test1: test
+  language: eng
